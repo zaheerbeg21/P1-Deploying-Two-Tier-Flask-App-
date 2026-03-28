@@ -121,7 +121,10 @@ This document provides a step-by-step guide for deploying a two-tier web applica
     sudo apt update
     sudo apt install jenkins -y
     ```
-
+   ```bash
+    Access Jenkins at http://<jenkins-ec2-ip>:8080 and complete the setup wizard. Install recommended plugins plus Docker Pipeline and SSH Agent plugins.
+ ```
+ 
 3.  **Start and Enable Jenkins Service:**
     ```bash
     sudo systemctl start jenkins
