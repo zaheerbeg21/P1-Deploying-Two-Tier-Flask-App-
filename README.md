@@ -191,8 +191,8 @@ sudo systemctl status jenkins
    ```bash
    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
    ```
-2. Open `http://<ec2-public-ip>:8080` in My browser
-3. Paste the password, install **suggested plugins**, and create My admin user
+2. Open `http://<ec2-public-ip>:8080` in browser
+3. Paste the password, install **suggested plugins**, and create admin user
 
 ### 3.5 Grant Jenkins Docker Permissions
 
@@ -341,7 +341,7 @@ pipeline {
 }
 ```
 
-> 📝 Replace `My-username/My-repo.git` with My actual GitHub repository URL.
+> 📝 Replace `username/repo.git` with actual GitHub repository URL.
 
 ---
 
@@ -385,7 +385,7 @@ You should see both `two-tier-app` (Flask) and `mysql` containers with status `U
 Access My application at:
 
 ```
-http://<My-ec2-public-ip>:5000
+http://<ec2-public-ip>:5000
 ```
 
 ---
@@ -417,7 +417,7 @@ git push origin main
 ## 📁 Project Structure
 
 ```
-My-repo/
+Repo/
 ├── app.py                  # Flask application entry point
 ├── requirements.txt        # Python dependencies
 ├── Dockerfile              # Flask container image definition
