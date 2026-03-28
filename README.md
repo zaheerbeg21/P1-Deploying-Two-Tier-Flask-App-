@@ -93,9 +93,9 @@ The application is fully containerized using **Docker** and **Docker Compose**, 
 Before you begin, make sure you have:
 
 - An **AWS account** with EC2 access
-- A **GitHub account** with your Flask app repository
+- A **GitHub account** with My Flask app repository
 - Basic knowledge of Linux, Docker, and Git
-- Your EC2 **key pair** (`.pem` file) for SSH access
+- My EC2 **key pair** (`.pem` file) for SSH access
 
 ---
 
@@ -110,11 +110,11 @@ Before you begin, make sure you have:
 
 ### 1.2 Configure Security Group
 
-Add the following **inbound rules** to your security group:
+Add the following **inbound rules** to My security group:
 
 | Type | Protocol | Port | Source | Purpose |
 |---|---|---|---|---|
-| SSH | TCP | 22 | Your IP | Secure shell access |
+| SSH | TCP | 22 | My IP | Secure shell access |
 | HTTP | TCP | 80 | 0.0.0.0/0 | Web traffic |
 | Custom TCP | TCP | 5000 | 0.0.0.0/0 | Flask application |
 | Custom TCP | TCP | 8080 | 0.0.0.0/0 | Jenkins dashboard |
@@ -122,7 +122,7 @@ Add the following **inbound rules** to your security group:
 ### 1.3 Connect to EC2
 
 ```bash
-ssh -i /path/to/your-key.pem ubuntu@<ec2-public-ip>
+ssh -i /path/to/My-key.pem ubuntu@<ec2-public-ip>
 ```
 
 ---
@@ -191,8 +191,8 @@ sudo systemctl status jenkins
    ```bash
    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
    ```
-2. Open `http://<ec2-public-ip>:8080` in your browser
-3. Paste the password, install **suggested plugins**, and create your admin user
+2. Open `http://<ec2-public-ip>:8080` in My browser
+3. Paste the password, install **suggested plugins**, and create My admin user
 
 ### 3.5 Grant Jenkins Docker Permissions
 
@@ -207,7 +207,7 @@ sudo systemctl restart jenkins
 
 ## Step 4 — GitHub Repository Configuration
 
-Your repository must contain the following three files alongside your Flask application code.
+My repository must contain the following three files alongside My Flask application code.
 
 ### `Dockerfile`
 
@@ -310,7 +310,7 @@ pipeline {
     stages {
         stage('Clone Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+                git branch: 'main', url: 'https://github.com/My-username/My-repo.git'
             }
         }
 
@@ -341,7 +341,7 @@ pipeline {
 }
 ```
 
-> 📝 Replace `your-username/your-repo.git` with your actual GitHub repository URL.
+> 📝 Replace `My-username/My-repo.git` with My actual GitHub repository URL.
 
 ---
 
@@ -358,7 +358,7 @@ pipeline {
 1. Scroll to the **Pipeline** section
 2. Set **Definition** → `Pipeline script from SCM`
 3. Set **SCM** → `Git`
-4. Enter your **GitHub repository URL**
+4. Enter My **GitHub repository URL**
 5. Set **Branch** → `*/main`
 6. Set **Script Path** → `Jenkinsfile`
 7. Click **Save**
@@ -382,10 +382,10 @@ docker ps
 
 You should see both `two-tier-app` (Flask) and `mysql` containers with status `Up`.
 
-Access your application at:
+Access My application at:
 
 ```
-http://<your-ec2-public-ip>:5000
+http://<My-ec2-public-ip>:5000
 ```
 
 ---
@@ -417,7 +417,7 @@ git push origin main
 ## 📁 Project Structure
 
 ```
-your-repo/
+My-repo/
 ├── app.py                  # Flask application entry point
 ├── requirements.txt        # Python dependencies
 ├── Dockerfile              # Flask container image definition
