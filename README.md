@@ -207,7 +207,7 @@ sudo systemctl restart jenkins
 
 ## Step 4 — GitHub Repository Configuration
 
-My repository must contain the following three files alongside My Flask application code.
+Repository must contain the following three files alongside My Flask application code.
 
 ### `Dockerfile`
 
