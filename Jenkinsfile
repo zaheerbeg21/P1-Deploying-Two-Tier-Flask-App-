@@ -1,23 +1,55 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('Clone repo'){
-            steps{
-                git branch: 'main', url: 'https://github.com/zaheerbeg21/P1-Deploying-Two-Tier-Flask-App-.git'
+
+    environment {
+        APP_SERVER = 'ubuntu@172.31.34.158'   // App Server private IP
+        APP_DIR    = '/home/ubuntu/app'
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/zaheerbeg21/P1-Deploying-Two-Tier-Flask-App-.git'
             }
         }
-        stage('Build image'){
-            steps{
-                sh 'docker build -t flask-app .'
+
+        stage('Copy Files to App Server') {
+            steps {
+                sshagent(['app-server-ssh']) {
+                    sh '''
+                        scp -o StrictHostKeyChecking=no \
+                            docker-compose.yml \
+                            Dockerfile \
+                            app.py \
+                            requirement.txt \
+                            $APP_SERVER:$APP_DIR/
+                    '''
+                }
             }
         }
-        stage('Deploy with docker compose'){
-            steps{
-                // existing container if they are running
-                sh 'docker compose down || true'
-                // start app, rebuilding flask image
-                sh 'docker compose up -d --build'
+
+        stage('Deploy on App Server') {
+            steps {
+                sshagent(['app-server-ssh']) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no $APP_SERVER "
+                            cd $APP_DIR &&
+                            docker compose down || true &&
+                            docker compose up -d --build
+                        "
+                    '''
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Deployment successful! Flask app is live at http://65.0.31.38:5000'
+        }
+        failure {
+            echo '❌ Pipeline failed. Check Console Output for details.'
         }
     }
 }
