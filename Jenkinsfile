@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_SERVER = 'ubuntu@172.31.34.158'   // App Server private IP
+        APP_SERVER = 'ubuntu@172.31.44.4'   // App Server private IP
         APP_DIR    = '/home/ubuntu/app'
     }
 
