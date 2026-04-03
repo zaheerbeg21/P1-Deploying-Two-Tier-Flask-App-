@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_SERVER = 'ubuntu@172.31.44.4'   // App Server private IP
+        APP_SERVER = 'ubuntu@172.31.33.128'   // App Server private IP
         APP_DIR    = '/home/ubuntu/app'
     }
 
@@ -46,7 +46,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Deployment successful! Flask app is live at http://65.0.31.38:5000'
+            echo '✅ Deployment successful! Flask app is live at http://172.31.33.128:5000'
         }
         failure {
             echo '❌ Pipeline failed. Check Console Output for details.'
