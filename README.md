@@ -190,46 +190,157 @@ ssh -i "app-key.pem" ubuntu@<app-public-ip>
 
 ## Step 3 — Setup Jenkins Server (Instance 1)
 
-SSH into the Jenkins server and run this entire block at once:
+Good call — your current README uses the **APT repo method**, which already caused issues on Ubuntu 24 (noble).
+
+👉 I’ll give you a **clean, production-safe version** that works on **both Ubuntu 22.04 + 24.04** without GPG problems.
+
+---
+
+# ✅ 🔥 Updated Jenkins Setup (README Ready)
+
+Use this instead of your current section 👇
+
+---
+
+## 🚀 Step 3 — Setup Jenkins Server (Stable Method)
+
+> ⚠️ This method avoids GPG/repository issues and works reliably on Ubuntu 22.04 and 24.04.
+
+---
+
+### 🔹 1. Update system
 
 ```bash
-# Update system
 sudo apt update && sudo apt upgrade -y
+```
 
-# Install Java, Git, Docker
-sudo apt install openjdk-17-jdk git docker.io -y
-sudo systemctl start docker && sudo systemctl enable docker
+---
+
+### 🔹 2. Install required dependencies
+
+```bash
+sudo apt install openjdk-17-jdk git docker.io wget -y
+```
+
+---
+
+### 🔹 3. Start and enable Docker
+
+```bash
+sudo systemctl start docker
+sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
+```
 
-# Install Jenkins — correct method for Ubuntu 22.04
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | \
-  gpg --dearmor | \
-  sudo tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null
+---
 
-echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] \
-  https://pkg.jenkins.io/debian-stable binary/" | \
-  sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+### 🔹 4. Download Jenkins package (Direct Install)
 
-sudo apt update && sudo apt install jenkins -y
+```bash
+wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.452.3_all.deb
+```
 
-# Start Jenkins
+---
+
+### 🔹 5. Install Jenkins
+
+```bash
+sudo dpkg -i jenkins_2.452.3_all.deb
+```
+
+---
+
+### 🔹 6. Fix dependencies (if any)
+
+```bash
+sudo apt -f install -y
+```
+
+---
+
+### 🔹 7. Start and enable Jenkins
+
+```bash
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
+```
 
-# Grant Jenkins Docker permissions (critical!)
+---
+
+### 🔹 8. Grant Docker access to Jenkins
+
+```bash
 sudo usermod -aG docker jenkins
 sudo systemctl restart jenkins
 ```
 
-> ⚠️ Use `gpg --dearmor` to convert the key — the plain `.asc` format is not trusted by apt on Ubuntu 22.04 and will cause `NO_PUBKEY` errors.
+---
 
-### Get Jenkins Initial Admin Password
+## 🔑 Access Jenkins
+
+### Get initial admin password
 
 ```bash
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-Open `http://<jenkins-public-ip>:8080` in browser → paste password → install **suggested plugins** → **create your admin user** (do not skip this step).
+---
+
+### Open Jenkins in browser
+
+```
+http://<jenkins-public-ip>:8080
+```
+
+---
+
+## ⚠️ Important Notes
+
+* Always use **Public IP of Jenkins EC2**, not Flask server
+* Ensure **port 8080 is open** in Amazon Web Services Security Group
+* Jenkins may take **1–2 minutes to fully start**
+
+---
+
+## 🔍 Verify Jenkins is Running
+
+```bash
+sudo systemctl status jenkins
+```
+
+Expected:
+
+```
+active (running)
+```
+
+---
+
+# 🧠 Why this update is better
+
+| Old तरीका ❌        | New तरीका ✅           |
+| ------------------ | --------------------- |
+| GPG key issues     | No repo dependency    |
+| Fails on Ubuntu 24 | Works on all versions |
+| More debugging     | Faster setup          |
+
+---
+
+# 🚀 Optional (Advanced Note for README)
+
+You can add this line (looks very professional):
+
+> Jenkins was installed using a direct `.deb` package to avoid repository key issues commonly encountered on newer Ubuntu distributions.
+
+---
+
+If you want next:
+
+* I can update your **entire README to production-level (resume-ready)**
+* Or fix **pipeline section + diagrams wording**
+
+Just tell me 👍
+
 
 ### Install SSH Agent Plugin
 
