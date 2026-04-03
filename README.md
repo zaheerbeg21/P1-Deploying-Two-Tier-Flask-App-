@@ -318,7 +318,7 @@ active (running)
 
 # 🧠 Why this update is better
 
-| Old तरीका ❌        | New तरीका ✅           |
+| Old                | New ा                |
 | ------------------ | --------------------- |
 | GPG key issues     | No repo dependency    |
 | Fails on Ubuntu 24 | Works on all versions |
