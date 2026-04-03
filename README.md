@@ -74,7 +74,7 @@ Jenkins runs on a dedicated server and deploys the application to a separate App
                     +--------------------------------+
                     |     Jenkins Server             |
                     |     Instance 1 (t2.micro)      |
-                    |     IP: 52.66.201.106          |
+                    |     IP: {Jenkins Server}          |
                     |                                |
                     |  1. Clones GitHub repo         |
                     |  2. Copies files via SCP       |
@@ -89,7 +89,7 @@ Jenkins runs on a dedicated server and deploys the application to a separate App
                     +--------------------------------+
                     |     Flask App Server           |
                     |     Instance 2 (t2.micro)      |
-                    |     IP: 65.0.31.38             |
+                    |     IP: {Flask Server}             |
                     |                                |
                     |  +----------+  +-----------+  |
                     |  |  Flask   |  |   MySQL   |  |
@@ -99,8 +99,8 @@ Jenkins runs on a dedicated server and deploys the application to a separate App
                     |   Docker Network: two-tier     |
                     +--------------------------------+
 
-Access Jenkins : http://52.66.201.106:8080
-Access Flask   : http://65.0.31.38:5000
+Access Jenkins : http://{Jenkins ip}
+Access Flask   : http://{Flask ip}
 ```
 
 > **Why 2 instances?** Separating Jenkins and the App Server keeps both within **AWS free tier (t2.micro)** while avoiding CPU exhaustion that occurs when running Jenkins + Docker builds on the same machine.
